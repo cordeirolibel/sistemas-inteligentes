@@ -1,0 +1,27 @@
+INSTRUÇÕES PARA PROGRAMAR AS TAREFAS DE BUSCA
+---------------------------------------------
+
+*) Escolha um diretório para armazenar todas as tarefas de busca clássica, vamos chamá-lo de BC
+
+*) Baixe o pacote pck_busca comum a todos as tarefas no diretório BC
+   Você deve ter uma estrutura igual a esta
+   - BC
+   --- ambiente
+   --- arvore
+   --- comuns
+   --- problema
+
+*) Para cada tarefa, cria um diretório e baixe os códigos no diretório src correspondente. 
+   Por exemplo, para a tarefa 1, você deve ter uma estrutura igual a esta
+   - BC
+   --- ambiente
+   --- arvore
+   --- comuns
+   --- problema
+   --- T01-LabirintoBasico
+   -------src
+   ----------sistema
+   --------------Agente.java
+   --------------Main.java
+
+*) Nas propriedades do projeto, adicione o diretório BC em Sources 
