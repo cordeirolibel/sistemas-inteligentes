@@ -46,7 +46,7 @@ public class Agente implements PontosCardeais {
         Estado posicaoAtual = sensorPosicao();
         // termina se chegou no alvo
         
-        int decideacao = 0;
+        int decideacao = -1;
         if(posicaoAtual.getLin()+1 <= model.labir.getMaxLin()-1 && posicaoAtual.getCol()+1 <= model.labir.getMaxCol()-1)
         {
            if(model.labir.parede[posicaoAtual.getLin()+1][posicaoAtual.getCol()+1] != 1)
@@ -104,12 +104,18 @@ public class Agente implements PontosCardeais {
             }
         }
         
+        //nao consegue se mover
+        if (decideacao == -1) 
+        {
+        	return -1;
+        }
+        
         System.out.println(decideacao);
         executarIr(decideacao); 
         
         return 1; // Se retornar -1, encerra o agente
     }
-
+    
     /**
     * Atuador: solicita ao agente 'fisico' executar a acao. 
     */
