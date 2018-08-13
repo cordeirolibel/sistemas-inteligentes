@@ -37,10 +37,10 @@ public class Agente implements PontosCardeais {
         //  contador de acoes
         ct++;
         System.out.println("Turno:"+ct);
-        if (ct == 20)
-        {
-        	return -1;
-        }
+        //if (ct == 20)
+        //{
+        //	return -1;
+        //}
         
         // @todo a cada acao escolher uma acao {N, NE, L, SE, S, SO, O, NO} 
         Estado posicaoAtual = sensorPosicao();

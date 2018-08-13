@@ -1,0 +1,27 @@
+Gustavo Cordeiro
+Igor Latini
+
+=======================================
+==== Tarefa 01: Ambiente Labirinto ==== 
+=======================================
+
+ [ Quais as características do ambiente labirinto? ]
+
+O ambiente labirinto possui as seguintes características:
+    • Completamente observável
+    • Um só agente
+    • Determinístico
+    • Episódico*
+    • Estático
+    • Discreto
+      
+Não faz sentido falar sobre Competitivo x Cooperativo, uma vez que há apenas um agente.
+
+*Se há uma estratégia que envolva os movimentos anteriores, o ambiente é sequencial. Caso a escolha do próximo espaço seja apenas aleatória, então é episódico.
+
+
+ 
+ [ Quantos estados são possíveis de serem alcançados pelo agente (tam. espaço de estados)? ]
+
+Considerando o grid 9x9 e que não é possível avançar sobre as paredes, tampouco sair do grid, há (9*9 – (número de paredes)) estados possíveis de serem alcançados, o que resulta em 53 estados possíveis.
+
