@@ -1,0 +1,39 @@
+Gustavo Cordeiro
+Igor Latini
+
+=======================================
+==== Tarefa 02: Ambiente Labirinto ==== 
+=======================================
+
+ [ 2. Faça um mapeamento do ciclo de raciocínio acima e o apresentado no algoritmo goalbased-agent (agente baseado em objetivos) do livro AIMA – correspondência entre todas as caixas da figura (inclusive environment, sensors e actuators) com os atributos e/ou métodos do código. ] 
+ 
+ ->
+ ->
+ ->
+ ...
+
+ [ 3. Sobre espaço de estados, planos e crenças, responda as perguntas abaixo e entregue junto com o documento da questão 2. ]
+ [ 3.1. Quantos planos de ação são possíveis para sair de So e alcançar Sg? ]
+
+Infinitos?? 
+
+
+ [ 3.2. Qual o tamanho do espaço de estados e como pode ser calculado? ]
+
+Considerando o grid 9x9 e que não é possível avançar sobre as paredes, tampouco sair do grid, há (9*9 – (número de paredes)) estados possíveis de serem alcançados, o que resulta em 53 estados possíveis.
+ 
+
+  [ 3.3. Quais são os conhecimentos/crenças que o agente deve ter acerca do ambiente para que possa executar o plano? ]
+ 
+Que o labirinto real seja o mesmo do fornecido pelo programador e não mude.
+
+
+ [ 3.4. Em todo e qualquer problema, as crenças do agente sempre correspondem ao estado real ou simulado do mundo? O que ocorre no caso de divergências entre a representação que o agente possui do ambiente e o estado real do ambiente? De onde podem vir estas divergências? ]
+
+Não.
+O agente pode realizar uma ação de inteligencia esperando um resultado e obter outro.  
+Alterações no ambiente ou erro na programação das crenças. 
+
+
+
+
