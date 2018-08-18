@@ -63,6 +63,8 @@ public class Problema implements PontosCardeais {
      * @return 
      */
     public Estado suc(Estado est, int acao) {
+    	Estado estSaida = new Estado(0,0);
+    	
         int lin = est.getLin();
         int col = est.getCol();
         
@@ -70,7 +72,10 @@ public class Problema implements PontosCardeais {
         int incrLin[] = {-1,-1,0,1,1,1,0,-1};
         int incrCol[] = {0,1,1,1,0,-1,-1,-1};
         
-        @TODO IMPLEMENTAR O METODO SUC (T02)
+        //@TODO IMPLEMENTAR O METODO SUC (T02) OK
+        estSaida.setLinCol(lin+incrLin[acao], col+incrCol[acao]);
+        
+        return (estSaida);
     }
 
     /**
