@@ -8,7 +8,7 @@ Igor Latini
  [ Quais as características do ambiente labirinto? ]
 
 O ambiente labirinto possui as seguintes características:
-    • Completamente observável
+    • Parcialmente observável
     • Um só agente
     • Determinístico
     • Episódico*

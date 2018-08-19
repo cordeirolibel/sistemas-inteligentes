@@ -67,7 +67,7 @@ public class Agente implements PontosCardeais {
         
         //criando plano de acoes
         if (ct==0) {
-        	this.plan = new int[11];
+        	this.plan = new int[12];
         	this.plan[0] = N;
         	this.plan[1] = N;
         	this.plan[2] = N;
@@ -79,28 +79,44 @@ public class Agente implements PontosCardeais {
         	this.plan[8] = NE;
         	this.plan[9] = NE;
         	this.plan[10] = L;
+                this.plan[11] = L;
         }
         
+        
+          
         int acaoPlan = this.plan[ct];
         Estado posAtual = this.sensorPosicao();
+        
+         //Testar objetivo
+        boolean flagfinal;
+        flagfinal = this.prob.testeObjetivo(posAtual);
         
         //proxima posicao
         Estado posSuc = this.prob.suc(posAtual, acaoPlan);
         
         //soma custo
         this.custo += this.prob.obterCustoAcao(posAtual,acaoPlan,posSuc);
-        		
+        
+        //acoes possiveis
+        int possiveis[];
+        possiveis = this.prob.acoesPossiveis(posAtual);
+                
         //@todo T2: imprimir o que foi pedido
         System.out.printf("estado atual: %d,%d\n",posAtual.getLin(),posAtual.getCol());
-        System.out.printf("açoes possiveis:\n");
+        System.out.printf("açoes possiveis: { ");
+        for(int n = 0; n<8; n++)
+        {
+            if(possiveis[n]!= -1)
+                System.out.printf("%s ", acao[n]);
+        }
+        System.out.printf("}\n");
         System.out.printf("ct = %d de %d ação escolhida=%s\n",ct,plan.length-1,acao[acaoPlan]);
         System.out.printf("custo ate o momento: %.1f\n\n",this.custo);
         
         executarIr(plan[ct]); 
-        
-        //Testar objetivo
-        if(ct==10)  //================DELETAR
-        	return -1;
+       
+        if (flagfinal == true)
+           return -1;
         return 1;
     }
     

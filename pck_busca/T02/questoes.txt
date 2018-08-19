@@ -7,15 +7,23 @@ Igor Latini
 
  [ 2. Faça um mapeamento do ciclo de raciocínio acima e o apresentado no algoritmo goalbased-agent (agente baseado em objetivos) do livro AIMA – correspondência entre todas as caixas da figura (inclusive environment, sensors e actuators) com os atributos e/ou métodos do código. ] 
  
- ->
- ->
- ->
- ...
+ Environment -> classes Model e View
+ Agent -> classe Agente (ou método Agente??)
+ Sensors -> método Estado Agente.sensorPosicao()
+ Actuators -> método int executarIr(int direcao)
+ State -> atributo Estado estAtu e (posição das paredes??)
+ How the world evolves -> ??
+ What my actions do -> método this.prob.suc(posAtual, acaoPlan)
+ What the world is like now -> (posição das paredes??)
+ What it will be like if I do action A -> método this.prob.suc(posAtual, acaoPlan)
+ Goals -> método void defEstObj(int lin, int col)
+ What action I should do now -> atributo int plan[]
+ 
 
  [ 3. Sobre espaço de estados, planos e crenças, responda as perguntas abaixo e entregue junto com o documento da questão 2. ]
  [ 3.1. Quantos planos de ação são possíveis para sair de So e alcançar Sg? ]
 
-Infinitos?? 
+Considerando que não há um limite para o número de ações no plano de ações, há infinitos planos de ações possíveis para sair de So e alcançar Sg. 
 
 
  [ 3.2. Qual o tamanho do espaço de estados e como pode ser calculado? ]
@@ -32,7 +40,7 @@ Que o labirinto real seja o mesmo do fornecido pelo programador e não mude.
 
 Não.
 O agente pode realizar uma ação de inteligencia esperando um resultado e obter outro.  
-Alterações no ambiente ou erro na programação das crenças. 
+Alterações no ambiente, erro na programação das crenças ou falha nos sensores. 
 
 
 
