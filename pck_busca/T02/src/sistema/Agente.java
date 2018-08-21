@@ -67,7 +67,7 @@ public class Agente implements PontosCardeais {
         
         //criando plano de acoes
         if (ct==0) {
-        	this.plan = new int[12];
+        	this.plan = new int[11];
         	this.plan[0] = N;
         	this.plan[1] = N;
         	this.plan[2] = N;
@@ -79,17 +79,11 @@ public class Agente implements PontosCardeais {
         	this.plan[8] = NE;
         	this.plan[9] = NE;
         	this.plan[10] = L;
-                this.plan[11] = L;
         }
         
         
-          
         int acaoPlan = this.plan[ct];
         Estado posAtual = this.sensorPosicao();
-        
-         //Testar objetivo
-        boolean flagfinal;
-        flagfinal = this.prob.testeObjetivo(posAtual);
         
         //proxima posicao
         Estado posSuc = this.prob.suc(posAtual, acaoPlan);
@@ -115,8 +109,10 @@ public class Agente implements PontosCardeais {
         
         executarIr(plan[ct]); 
        
-        if (flagfinal == true)
+        //Testar objetivo
+        if (this.prob.testeObjetivo(this.sensorPosicao()) == true)
            return -1;
+        
         return 1;
     }
     
