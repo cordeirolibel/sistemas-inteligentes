@@ -72,9 +72,21 @@ public class Problema implements PontosCardeais {
         int incrLin[] = {-1,-1,0,1,1,1,0,-1};
         int incrCol[] = {0,1,1,1,0,-1,-1,-1};
         
-        //@TODO IMPLEMENTAR O METODO SUC (T02) OK
+        //@TODO IMPLEMENTAR O METODO SUC (T02) 
         estSaida.setLinCol(lin+incrLin[acao], col+incrCol[acao]);
         
+        //passou do limite do labirinto
+        if ((estSaida.getCol() >= this.crencaLabir.getMaxCol())||
+        	(estSaida.getLin() >= this.crencaLabir.getMaxLin())||
+        	(estSaida.getCol() < 0)||
+        	(estSaida.getLin() < 0)){
+        	return (est);
+        }
+        //esta numa parede
+        else if(this.crencaLabir.parede[estSaida.getLin()][estSaida.getCol()]==1) {
+        	return (est);
+        }
+        //pode ir o proximo estado
         return (estSaida);
     }
 
