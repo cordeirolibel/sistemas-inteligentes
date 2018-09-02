@@ -32,6 +32,7 @@ public class Estado {
     public int getCol() {
         return this.col;
     }
+    
     public String getString() {
         String str;
         str = String.format("(%d, %d)", lin, col);

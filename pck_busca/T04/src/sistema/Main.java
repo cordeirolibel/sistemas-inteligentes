@@ -48,5 +48,6 @@ public class Main {
         while (ag.deliberar() != -1) {  
             model.desenhar(); 
         }
+        model.desenhar(); 
     }
 }

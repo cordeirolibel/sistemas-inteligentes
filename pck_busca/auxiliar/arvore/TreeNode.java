@@ -31,6 +31,7 @@ public class TreeNode {
     public int getDepth() {
         return this.depth;
     }
+    
     public void setState(Estado est) {
         this.st = est;
     }
@@ -98,6 +99,7 @@ public class TreeNode {
         this.hn = hn;
     }
 
+    
     private static void printSubTreeRec(TreeNode node, int nivel) {
         String spaces = String.format("%"+nivel+"s","");
         System.out.println(spaces + node.gerarStr());
@@ -106,7 +108,8 @@ public class TreeNode {
             printSubTreeRec(each, nivel);
         }
     }
-
+    
+   
 
     /**
      * Imprime a subárvore do nó em questão (this).
@@ -115,5 +118,15 @@ public class TreeNode {
         System.out.println("\nA R V O R E"); 
         printSubTreeRec(this, 1);
 
+    }
+    
+    /**
+     * Retorna true se os estados forem iguais
+     */
+    public boolean equals (TreeNode no) {
+    	Estado est1 = this.getState();
+    	Estado est2 =   no.getState();
+    	
+    	return est1.igualAo(est2);
     }
 }
