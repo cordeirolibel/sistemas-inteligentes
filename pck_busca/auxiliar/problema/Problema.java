@@ -54,13 +54,21 @@ public class Problema implements PontosCardeais {
     public void defEstObj(int lin, int col) {
         estObj.setLinCol(lin, col);
     }
+    
+    /**
+     * Retorna estado objetivo
+     * @return estado objetivo
+     */
+    public Estado getEstObj() {
+        return estObj;
+    }
 
     /**
      * Funcao sucessora: recebe um estado '(lin, col)' e calcula o estado
      * sucessor que resulta da execucao da acao = {N, NE, L, SE, S, SO, O, NO}
      * @param est
      * @param acao
-     * @return 
+     * @return Proximo estado possivel apos uma acao num estado est
      */
     public Estado suc(Estado est, int acao) {
     	Estado estSaida = new Estado(0,0);

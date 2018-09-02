@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 import java.util.Comparator;
 import java.util.*;
@@ -75,9 +74,14 @@ public class Agente implements PontosCardeais {
         if (ct==0) {
         	//this.planoFixo();
         	this.custoUniforme();
-        	
-        	System.out.println("\n*** Plano Arquitetado - Inicio da Execucao! ***\n");
         	//return -1;
+        	
+        	//mostrando plano
+        	System.out.print("Plano: ");
+        	for(int a : plan)
+        		System.out.printf("%s ", acao[a]);
+        	
+        	System.out.println("\n\n*** Plano Arquitetado - Inicio da Execucao! ***\n");
         }
         
         int acaoPlan = this.plan[ct];
@@ -253,8 +257,7 @@ public class Agente implements PontosCardeais {
      * @return null se nao contem e o noh achado se contem
      */
     private TreeNode contains(PriorityQueue<TreeNode> queue, TreeNode no) {
-    	
-
+    
     	TreeNode[] elementos = new TreeNode[queue.size()];
 
         // use toArrsy() method
@@ -271,5 +274,38 @@ public class Agente implements PontosCardeais {
         //nao achou noh
     	return null;
     }
+    
+    //Fixo: para testes
+    private float H0(Estado estAtual) {
+    	return 0;
+    }
+    
+    //Distancia euclidiana simples
+    //sqrt(2)<1.5  entao deve funcionar
+    private float H1(Estado estAtual) {
+    	Estado estObj = this.prob.getEstObj();
+    	
+    	int d_col = estObj.getCol()-estAtual.getCol();
+    	int d_lin = estObj.getCol()-estAtual.getCol();
+    	
+        return (float) Math.sqrt(d_lin*d_lin+d_col*d_col);
+    	
+    }
+    
+    // Melhor caminho: vai o que der na diagonal e em linha reta o resto
+    private float H2(Estado estAtual) {
+    	Estado estObj = this.prob.getEstObj();
+    	
+    	int d_col = Math.abs(estObj.getCol()-estAtual.getCol());
+    	int d_lin = Math.abs(estObj.getLin()-estAtual.getLin());
+    	
+    	float custo = 0;
+    	custo += Math.max(d_col,d_lin)-Math.min(d_col,d_lin); //linha reta
+    	custo += Math.min(d_col,d_lin)*1.5; //diagonal
+    	
+        return custo;
+    }
+    
+    
 }    
 
