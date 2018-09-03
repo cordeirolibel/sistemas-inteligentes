@@ -9,6 +9,7 @@ import static comuns.PontosCardeais.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.Scanner; //ler teclado
 
 
 import java.util.Comparator;
@@ -73,8 +74,20 @@ public class Agente implements PontosCardeais {
         //criando plano de acoes
         if (ct==0) {
         	//this.planoFixo();
-        	this.custoUniforme();
-        	//return -1;
+                Scanner ler = new Scanner(System.in); //ler teclado
+                int leitura;
+                System.out.printf("Escolha um algoritmo:\n0 - Custo Uniforme\n1 - A* com heurística 1\n2 - A* com heurística 2\n");
+                leitura = ler.nextInt();
+                if (leitura==0 || leitura==1 || leitura==2)
+                    this.planoDinamico(leitura); //0=custoUniforme; 1=A*heuristica1; 2=A*heuristica2
+        	else 
+                {
+                    System.out.println("Comando não reconhecido; usando custo uniforme como padrão\n");
+                    this.planoDinamico(0);
+                }
+                        
+                    
+                //return -1;
         	
         	//mostrando plano
         	System.out.print("Plano: ");
@@ -153,15 +166,36 @@ public class Agente implements PontosCardeais {
     	return true;
     }
     
-    // Gerador de plano usando Custo Uniforme
-    private boolean custoUniforme() {
+    // Gerador de plano 
+    private boolean planoDinamico(int tipo) {
     	
+        if (tipo == 0)
+            System.out.println("Usando Custo Uniforme:\n");
+        if (tipo == 1)
+            System.out.println("Usando A* com heurísitca 1:\n");
+        if (tipo == 2)
+            System.out.println("Usando A* com heurísitca 2:\n");
+        
+        //Controle e análise
+        int nosgerados = 0;
+        int ct_ja_explorados = 0;
+        int ct_descartados_front = 0;
+        int nosgeradostemp = 0;
+        int ct_ja_explorados_temp = 0;
+        int ct_descartados_front_temp = 0;
+        int nosgeradosmax = 0;
+        int ct_ja_explorados_max = 0;
+        int ct_descartados_front_max = 0;
+        
+        
     	//criando primeiro no ou raiz
 		TreeNode tree = new TreeNode(null);
 		tree.setState(this.sensorPosicao());
 		tree.setGn(0);//zero para o primeiro
 		tree.setHn(0);//sempre zero
 		
+                nosgerados++; //raiz
+                                
 		//criando fila ordenada - fronteira
 		Comparator<TreeNode> comparator = new fnComparator();
 		PriorityQueue<TreeNode> queue = new PriorityQueue<TreeNode>(comparator);
@@ -177,6 +211,18 @@ public class Agente implements PontosCardeais {
 		Estado est_no, est_no_filho;
 		while(queue.size()!=0) {
 			
+                    if(nosgeradostemp>nosgeradosmax)
+                        nosgeradosmax = nosgeradostemp;
+                    if(ct_ja_explorados_temp>ct_ja_explorados_max)
+                        ct_ja_explorados_max = ct_ja_explorados_temp;
+                    if(ct_descartados_front_temp>ct_descartados_front_max)
+                        ct_descartados_front_max = ct_descartados_front_temp;
+                    
+                    nosgeradostemp = 0;
+                    ct_ja_explorados_temp = 0;
+                    ct_descartados_front_temp = 0;
+                    
+                    
 			//pegando o menor da fronteira
 			no = queue.remove();
 			est_no = no.getState();
@@ -192,6 +238,14 @@ public class Agente implements PontosCardeais {
 				System.out.print("Passos: ");
 				System.out.println(depth);
 				
+                                System.out.printf("Nós gerados: %d\n", nosgerados);
+                                System.out.printf("Nós não inseridos: %d\n", ct_ja_explorados);
+                                System.out.printf("Nós removidos da fronteira: %d\n", ct_descartados_front);
+                                System.out.printf("Nós gerados (max): %d\n", nosgeradosmax);
+                                System.out.printf("Nós não inseridos (max): %d\n", ct_ja_explorados_max);
+                                System.out.printf("Nós removidos da fronteira (max): %d\n", ct_descartados_front_max);
+                                
+                                
 				//criando o plano
 				this.plan = new int[depth];
 				int i=0;
@@ -221,14 +275,28 @@ public class Agente implements PontosCardeais {
 	        	est_no_filho = this.prob.suc(est_no, acao);
 	        	TreeNode no_filho  = no.addChild();
 	        	no_filho.setState(est_no_filho);
-	        	no_filho.setHn(0);
+                        if (tipo == 0)
+                            no_filho.setHn(0);
+                        if (tipo == 1)
+                            no_filho.setHn(H1(est_no_filho)); 
+                        if (tipo == 2)
+                            no_filho.setHn(H2(est_no_filho)); 
 	        	no_filho.setGn(this.prob.obterCustoAcao(est_no,acao,est_no_filho)+no.getGn());
 	        	no_filho.setAction(acao);
 	        	
+                        nosgerados++;
+                        nosgeradostemp++;
+                        
 	        	
 	        	//procura se noh ja esta na fonteira
 	        	TreeNode no_filho_em_queue = this.contains(queue,no_filho);
-	        	
+                        
+                        if((visitados[est_no_filho.getLin()][est_no_filho.getCol()]!=0))
+                        {
+                            ct_ja_explorados++;
+                            ct_ja_explorados_temp++;
+                        }
+                        
 	        	//se seu filho nao foi explorado e nao esta na fronteira
 	        	if((visitados[est_no_filho.getLin()][est_no_filho.getCol()]==0) &&
 	        	   (no_filho_em_queue==null)) {
@@ -237,11 +305,19 @@ public class Agente implements PontosCardeais {
 	        	}
 	        	//se estado esta na fronteira com custo maior
 	        	else if(no_filho_em_queue!=null) {
-	        		if(no_filho_em_queue.getGn()>no_filho.getGn()) {
+	        		if(no_filho_em_queue.getFn()>no_filho.getFn()) {
 	        			//substitui pelo novo
 	        			queue.remove(no_filho_em_queue);
 	        			queue.add(no_filho);
+                                        
+                                        ct_descartados_front++;
+                                        ct_descartados_front_temp++;
 	        		}
+                                else {
+                                     ct_descartados_front++;
+                                     ct_descartados_front_temp++;
+                                }
+                                    
 	        	}
 	        }
 		}
