@@ -192,7 +192,13 @@ public class Agente implements PontosCardeais {
 		TreeNode tree = new TreeNode(null);
 		tree.setState(this.sensorPosicao());
 		tree.setGn(0);//zero para o primeiro
-		tree.setHn(0);//sempre zero
+                if (tipo == 0)
+                    tree.setHn(0);
+                if (tipo == 1)
+                    tree.setHn(H1(this.sensorPosicao()));
+                if (tipo == 2)
+                    tree.setHn(H2(this.sensorPosicao()));
+		
 		
                 nosgerados++; //raiz
                                 
