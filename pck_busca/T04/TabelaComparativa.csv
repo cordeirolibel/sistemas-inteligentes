@@ -1,8 +1,0 @@
-,Complexidade temporal,,,Complexidade espacial,,,Solução encontrada,Custo
-,Nós gerados,ct_ja_explorados,ct_descartados_front,Nós armazenados,ct_ja_explorados,ct_descartados_front,,
-Custo uniforme,199,95,54,8,4,3,N N N NE L L L L NE NE L ,12.5
-A* com heurística 1,69,23,17,6,3,2,N N N NE L L L L NE NE L ,12.5
-A* com heurística 2,55,15,13,6,2,2,N N N NE L L L L NE NE L ,12.5
-,,,,,,,,
-,,,,,,,,
- ,,,,,,,,
