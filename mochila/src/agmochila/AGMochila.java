@@ -199,15 +199,23 @@ public class AGMochila {
     public static void main(String[] args) {
         Mochila best;
         Mochila melhorTodas = new Mochila();
+        Mochila[] mochilas =  new Mochila[200]; 
+        int count = 0;
         int counter = 0;
         int antigo = 0;
         int ct = 0;
+        int id_melhor = 0;
         do {
+        	System.out.printf("ct: %d\n",ct);
             AGMochila ag = new AGMochila();
             best = ag.executarAG();
             if (best != null) {
                 System.out.println(best.imprimirMochilaCSV());
                 best.imprimirMochila();
+                if (best.valor == 206) {
+                	mochilas[count] = best.clonar();
+                	count+=1;
+                }
                 if (best.valor > melhorTodas.valor)
                 {
                     melhorTodas = best;
@@ -225,9 +233,12 @@ public class AGMochila {
             ct++;
             System.out.println("Total de execucoes = " + ct);
         } while (ct < MAX_EXECUCOES);
-        System.out.printf("\nMelhor mochila de todas: \n");
+        System.out.printf("\nMelhor mochila de todas: %d\n",id_melhor);
         melhorTodas.imprimirMochila();
         System.out.printf("\nNúmero de mochilas ótimas: %d\n", counter);
         
+        //for(int i=0;i<count;i++) {
+        //	System.out.println(mochilas[i].imprimirMochilaCSV());
+        //}
     }
 }

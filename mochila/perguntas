@@ -1,0 +1,43 @@
+  [  Explique o método da Penalização em linguagem natural. ]
+A penalização consiste no quadrado da distância entre o peso máximo e o peso da mochila.
+Caso o peso não ultrapasse então a penalidade é 1.
+
+  [  Explique o método da Reparação em linguagem natural. ]
+Caso a mochila tenha um peso maior que a capacidade máxima um item é removido da mochila.
+O processo se repete até o peso dos itens ser menor que a capacidade máxima da mochila.
+
+  [  a. As curvas variam em função do tamanho da população? Explique. ] 
+Sim, no geral quanto maior a população mais rápida é a convergência. 
+
+  [ b. As curvas variam em função do modo de cálculo de fitness: penalização x
+       reparação? Explique. ]
+Sim, a reparação apresenta uma convergência mais rápida. 
+Porém o de penalidade apresenta melhores para populações menores. 
+
+  [ a. Quais foram as taxas de sucesso obtidas? ] 
+114 Reparação.
+20 Penalização.
+
+  [ b. Quantas vezes o cálculo de fitness é executado para a configuração em
+       questão por execução? Escreva a fórmula. ]
+??
+  [ c. Qual método implementado é mais custoso temporalmente: o de reparação
+       ou de penalização? ]
+??
+
+  [ a. Qual foi o valor máximo encontrado para os itens de uma mochila
+(logicamente, sem violar a capacidade em Kg da mochila)? ] 
+206.
+
+  [ b. Quantas mochilas diferentes com valores máximos? ] 
+3?
+
+  [ c. Liste todas as mochilas que obteve que apresentaram valor máximo. Para cada
+uma delas coloque os itens, valor total e peso total. ] 
+
+11,113,206,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,1,0,1,0,1
+11,114,206,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,1,0,1,0,1
+12,114,206,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,1,0,1,0,1
+
+
+
