@@ -137,7 +137,7 @@ public class Mochila {
           // Penalizar indivíduos que violam a capacidade da MOCHILA
         if (this.peso > CAPACIDADE_KG_MOCHILA)
         {
-            this.valor = this.valor - (this.peso-CAPACIDADE_KG_MOCHILA)*(this.peso-CAPACIDADE_KG_MOCHILA) ; // Não lembro como era a função
+            this.valor = this.valor - (this.peso-CAPACIDADE_KG_MOCHILA)*(this.peso-CAPACIDADE_KG_MOCHILA);
             if (this.valor < 0)
             {
                 this.valor = 1;
@@ -149,7 +149,6 @@ public class Mochila {
      * Este método repara a mochila fazendo-a respeitar a capacidade máxima de peso.
      */
     private void calcularFitnessReparacao() {
-        //@to do
         while (this.peso > CAPACIDADE_KG_MOCHILA)
         {
             int n;

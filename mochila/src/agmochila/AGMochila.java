@@ -14,7 +14,7 @@ import static agmochila.AGCOperador.selecionarPorRoleta;
  * @author Tacla (UTFPR, Curitiba)
  */
 public class AGMochila {
-
+    
     // PARÂMETROS DE CONFIGURAÇÃO DO AG 
     /**
      * número máximo de execuções
