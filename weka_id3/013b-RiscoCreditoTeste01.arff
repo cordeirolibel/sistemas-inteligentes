@@ -1,0 +1,25 @@
+@relation risco-de-credito
+
+@attribute historico {semInfo, ruim, bom}
+@attribute dividas {baixas, altas}
+@attribute ganhos-extras {nenhum, adequado }
+@attribute ganhos {0a15k, 15a35k, MQ35k}
+@attribute risco {baixo, medio, alto}
+
+@data
+ruim,    altas,  nenhum,   0a15k, alto
+semInfo, altas,  nenhum,  15a35k, alto
+semInfo, baixas, nenhum,  15a35k, medio
+semInfo, baixas, nenhum,   0a15k, alto
+semInfo, baixas, nenhum,   MQ35k, baixo
+semInfo, baixas, adequado, MQ35k, baixo
+ruim,    baixas, nenhum,   0a15k, alto
+ruim,    baixas, adequado, MQ35k, medio
+bom,     baixas, nenhum,   MQ35k, baixo
+bom,     altas,  adequado, MQ35k, baixo
+bom,     altas,  nenhum,   0a15k, alto
+bom,     altas,  nenhum,  15a35k, medio
+bom,     altas,  nenhum,   MQ35k, baixo
+ruim,    altas,  nenhum,  15a35k, alto
+ruim,    altas,  adequado,  0a15k, medio
+

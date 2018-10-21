@@ -1,0 +1,87 @@
+  [ 4. Observe a árvore gerada e verifique/responda: ]
+  [ a. Todas as propriedades/atributos foram utilizados na árvore? ]
+Não, somente ganhos, historico e dividas.
+
+  [ b. Seria possível uma outra árvore de decisão com os mesmos atributos? ]
+Sim, uma simples mudança de prioridade já gera outra árvore.
+
+  [ i. observe na aba preprocess as contagens dos atributos -> slide
+    seguinte ]
+
+  [ c. Que cada ramo da árvore representa um teste condicional formado 
+    pela conjunção dos testes deste ramo e que a árvore como um todo é  
+    a disjunção dos vários ramos. ]
+=>Árvore:
+ganhos = 0a15k: alto
+ganhos = 15a35k
+|  historico = semInfo
+|  |  dividas = baixas: medio
+|  |  dividas = altas: alto
+|  historico = ruim: alto
+|  historico = bom: medio
+ganhos = MQ35k
+|  historico = semInfo: baixo
+|  historico = ruim: medio
+|  historico = bom: baixo
+
+--------------------------------------------------------------
+
+  [ 2. Observe o desempenho do ID3 e explique o significado das  
+    seguintes medidas de avaliação: ] 
+  [ a. correctly/incorrectly classified instances ]
+Número de itens do caso de teste classificados corretamente e incorretamente.
+
+  [ b. Detailed Accuracy by Class ] 
+  [ i. Confusion Matrix ]
+A matriz compara os riscos classificados com o verdadeiro valor.
+Se tivermos o número 2 na posição (a,c) temos que 2 instâncias que eram 'a' 
+foram classificadas como 'c'.
+
+  [ ii. TP Rate, FP Rate ]
+-TP Rate (verdadeiros positivos): porcentagem de casos previstos em uma classe
+e pertencem a essa classe.
+-FP Rate (falsos positivos): porcentagem de casos previstos em uma classe
+mas não pertencem a essa classe.
+
+  [ iii. Precision, Recall, F-measure ]
+ ?? muito confuso isso aqui ??
+-Precision: TP/(TP+FP) Porcentagem de acertos para um determinada classe
+em relação a quantos chutes para essa classe. 
+-Recall: TP/(TP+FN) Porcentagem de acertos para um determinada classe
+em relação a quantos pertencem a essa classe. 
+-F-Measure: Média harmônica entre Precision e Recall 2*R*P/(R+P).
+
+--------------------------------------------------------------
+
+  [ 4. Verifique se a árvore de decisão difere da do exercício 1 
+    (recorde-se que estamos utilizando um dataset ligeiramente diferente: 
+    tem uma instância a mais). ]
+=>Árvore:
+ganhos = 0a15k
+|  ganhos-extras = nenhum: alto
+|  ganhos-extras = adequado: medio
+ganhos = 15a35k
+|  historico = semInfo
+|  |  dividas = baixas: medio
+|  |  dividas = altas: alto
+|  historico = ruim: alto
+|  historico = bom: medio
+ganhos = MQ35k
+|  historico = semInfo: baixo
+|  historico = ruim: medio
+|  historico = bom: baixo
+
+  [ 5. Explique o que é n-fold cross-validation e quando é utilizada. ]
+n-fold cross-validation é uma técnica que divide o conjunto dataset em
+n subconjuntos mutuamente exclusivos e do mesmo tamanho. Um subconjunto 
+é utilizado para testes e o demais para treino, sendo alterado qual
+é o subconjunto de teste a cada iteração/epoch. A técnica é bastante 
+utilizada para datasets pequenos. 
+
+  [ 6. Explique o que é split (Test options). ]
+Consiste na porcentagem de dados que será utilizada para treino, o 
+restante é utilizado para testes. Geralmente essa separação é feita
+randomicamente. 
+
+
+
