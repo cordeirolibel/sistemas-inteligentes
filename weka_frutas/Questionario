@@ -1,0 +1,134 @@
+  [ 1) Qual conhecimento o ID3 proporcionou que era desconhecido antes de sua execução? ] 
+-------------------------------------------------------------
+Argumentos indutivos.  
+
+=============================================================
+  [ 2) Construa um arquivo .arff a partir do dataset fornecido pelo professor. Copie aqui o cabeçalho do arquivo .arff utilizado para treinamento no WEKA (definição dos atributos e da classe de saída). ] 
+-------------------------------------------------------------
+@relation frutaEnergia.symbolic
+
+@attribute c0={K,W}
+@attribute c1={R,G,B}
+@attribute c2={R,G,B}
+@attribute c3={R,G,B}
+@attribute c4={K,W}
+@attribute e={0,2,4}
+
+=============================================================
+  [ 3) Qual o tamanho do arquivo de treinamento (quantas instâncias)? ]
+-------------------------------------------------------------
+900
+
+=============================================================
+  [ 4) Qual o número de instâncias por classe? ]
+-------------------------------------------------------------
+C0 (K=453, W=447)
+C1 (R=295, G=298, B=307)
+C2 (R=297, G=307, B=306)
+C3 (R=299, G=263, B=338)
+C4 (K=466, W=434)
+e  (0=276, 2=512, 4=112)
+
+=============================================================
+  [ 5) Qual o valor de entropia para o dataset datasetFrutasEnergia-training.arff em relação aos valores possíveis para a classe de saída E={0,2,4}? Qual a interpretação que você dá ao valor obtido? ]
+-------------------------------------------------------------
+E[D] = sum_{i=1}^{|C|}-p(c_i)*lg(p(c_i))
+lg(x) = log_2(x)
+p(0) = p0 = 276/900
+p(2) = p2 = 512/900
+p(4) = p4 = 112/900
+
+E(e) = -p0.lg(p0)-p2.lg(p2)-p4.lg(p4)
+E(e) = 1.36 bits.
+
+A entropia maxima é 3*(1/3)*lg(1/3)=1.585.
+Assim, 1.36 é uma entropia alta e com maior desordem e maior incerteza.
+
+=============================================================
+  [ 6) Qual foi a árvore de decisão gerada pelo algoritmo? Copie e cole aqui. ]
+-------------------------------------------------------------
+c1= = R
+|  c3= = R
+|  |  c2= = R: 4
+|  |  c2= = G: 2
+|  |  c2= = B: 2
+|  c3= = G
+|  |  c2= = R: 2
+|  |  c2= = G: 2
+|  |  c2= = B: 0
+|  c3= = B
+|  |  c2= = R: 2
+|  |  c2= = G: 4
+|  |  c2= = B: 2
+c1= = G
+|  c0= = K
+|  |  c3= = R
+|  |  |  c2= = R: 2
+|  |  |  c2= = G: 2
+|  |  |  c2= = B: 0
+|  |  c3= = G
+|  |  |  c2= = R: 2
+|  |  |  c2= = G: 4
+|  |  |  c2= = B: 2
+|  |  c3= = B
+|  |  |  c2= = R: 0
+|  |  |  c2= = G: 2
+|  |  |  c2= = B: 2
+|  c0= = W: 0
+c1= = B
+|  c2= = R
+|  |  c3= = R: 2
+|  |  c3= = G: 0
+|  |  c3= = B: 2
+|  c2= = G
+|  |  c3= = R: 0
+|  |  c3= = G: 2
+|  |  c3= = B: 2
+|  c2= = B
+|  |  c3= = R: 2
+|  |  c3= = G: 2
+|  |  c3= = B: 4
+
+=============================================================
+  [ 7) Todos os atributos do arquivo .arff foram utilizados pelo ID3 na geração da árvore de decisão? Caso não, quais ficaram de fora? ]
+-------------------------------------------------------------
+Não, c4 ficou de fora
+
+=============================================================
+  [ 8) Para o ramo C1=B e C2=R, explique, por meio do cálculo de entropia, o porquê de o ID3 ter escolhido o atributo C3 como sendo o próximo em vez do C4. ]
+-------------------------------------------------------------
+
+=============================================================
+  [ 9) Para o ramo C1=B, C2=R e C3=R, explique porque o ID3 não necessitou incluir mais atributos no ramo. ]
+-------------------------------------------------------------
+
+=============================================================
+  [ 10) Defina o arquivo datasetFrutasEnergia-test.arff (opção supplied test set) como sendo de teste para o modelo aprendido anteriormente. Analise o desempenho do modelo para os exemplos contidos em datasetFrutasEnergia-test.arff com base nas medidas abaixo explicando o significado e contextualizando-as para a tarefa em questão: ] 
+a. matriz de confusão: <intrepretação em linguagem natural>
+-------------------------------------------------------------
+
+b. para cada classe
+i. TP rate: <intrepretação em linguagem natural>
+-------------------------------------------------------------
+
+ii. FP Rate: <intrepretação em linguagem natural>
+-------------------------------------------------------------
+
+iii. precision: <intrepretação em linguagem natural>
+-------------------------------------------------------------
+
+iv. recall: <intrepretação em linguagem natural>
+-------------------------------------------------------------
+
+v. f-measure: <intrepretação em linguagem natural>
+-------------------------------------------------------------
+
+=============================================================
+
+  [ 11) Baseando-se nos resultados acima, qual(is) medida(s) indica(m) a probabilidade de o personagem morrer por engano (comer uma fruta venenosa por engano) ao utilizar o modelo aprendido? Explique. ]
+-------------------------------------------------------------
+
+
+
+
+
