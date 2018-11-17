@@ -33,6 +33,7 @@ public class Agente implements PontosCardeais {
     static int ct = -1;
            
     public Agente(Model m) {
+    	int [] pos;
         this.model = m;
         prob = new Problema();
         
@@ -40,25 +41,15 @@ public class Agente implements PontosCardeais {
         
         //@todo T2: crencas do agente a respeito do labirinto OK
         prob.criarLabirinto(9, 9);
-        prob.crencaLabir.porParedeVertical(0, 1, 0);
-        prob.crencaLabir.porParedeVertical(0, 0, 1);
-        prob.crencaLabir.porParedeVertical(5, 8, 1);
-        prob.crencaLabir.porParedeVertical(5, 5, 2);
-        prob.crencaLabir.porParedeVertical(8, 8, 2);
-        prob.crencaLabir.porParedeHorizontal(4, 7, 0);
-        prob.crencaLabir.porParedeHorizontal(7, 7, 1);
-        prob.crencaLabir.porParedeHorizontal(3, 5, 2);
-        prob.crencaLabir.porParedeHorizontal(3, 5, 3);
-        prob.crencaLabir.porParedeHorizontal(7, 7, 3);
-        prob.crencaLabir.porParedeVertical(6, 7, 4);
-        prob.crencaLabir.porParedeVertical(5, 6, 5);
-        prob.crencaLabir.porParedeVertical(5, 7, 7);
+        prob.crencaLabir.paredesPadrao();
         
         
         //@todo T2: crencas do agente: Estado inicial, objetivo e atual
         // utilizar atributos da classe Problema OK
-        prob.defEstIni(8, 0);
-        prob.defEstObj(2, 8);
+        pos = model.lerPos();
+        prob.defEstIni(pos[0],pos[1]);
+        pos = model.getObj();
+        prob.defEstObj(pos[0],pos[1]);
     }
     
     /**Escolhe qual ação (UMA E SOMENTE UMA) será executada em um ciclo de raciocínio
@@ -73,21 +64,9 @@ public class Agente implements PontosCardeais {
         
         //criando plano de acoes
         if (ct==0) {
+        	
         	//this.planoFixo();
-                Scanner ler = new Scanner(System.in); //ler teclado
-                int leitura;
-                System.out.printf("Escolha um algoritmo:\n0 - Custo Uniforme\n1 - A* com heurística 1\n2 - A* com heurística 2\n");
-                leitura = ler.nextInt();
-                if (leitura==0 || leitura==1 || leitura==2)
-                    this.planoDinamico(leitura); //0=custoUniforme; 1=A*heuristica1; 2=A*heuristica2
-        	else 
-                {
-                    System.out.println("Comando não reconhecido; usando custo uniforme como padrão\n");
-                    this.planoDinamico(0);
-                }
-                        
-                    
-                //return -1;
+            this.planoDinamico(1); //0=custoUniforme; 1=A*heuristica1; 2=A*heuristica2
         	
         	//mostrando plano
         	System.out.print("Plano: ");

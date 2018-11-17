@@ -61,6 +61,16 @@ public class Model implements PontosCardeais {
         this.pos[1] = col;
         return 1;
     }
+    
+    /**
+     * Cria uma posicao randomica para o agente
+    */
+    public int setPosRand() {
+        int [] pos_rand;
+        pos_rand = labir.randPos();
+        return setPos(pos_rand[0],pos_rand[1]);
+    }
+
      /**Utilizada para colocar uma marca onde se encontra o estado objetivo.
      * @param lin a linha onde o agente está situado
      * @param col a coluna onde o agente está situado
@@ -80,7 +90,23 @@ public class Model implements PontosCardeais {
         this.posObj[1] = col;
         return 1;
     }
+
+    /**
+     * Cria uma posicao randomica para o objetivo
+    */
+    public int setObjRand() {
+        int [] obj_rand;
+        obj_rand = labir.randPos();
+        return setObj(obj_rand[0],obj_rand[1]);
+    }
+
     
+    /**Retorna a posição do objetivo no labirinto
+     * @return vetor de 2 inteiros = par ordenado = [linha, coluna]
+     */
+    public int [] getObj() {
+    	return posObj;
+    }
 
    /**Colocar parede horizontal no labirinto.
     * @param ini: coluna inicial entre 0 e número máximo de colunas - 1
@@ -160,6 +186,7 @@ public class Model implements PontosCardeais {
         this.pos[0] = lin;
         this.pos[1] = col;
     }
+    
     
     
 }
