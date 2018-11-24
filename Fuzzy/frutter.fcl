@@ -1,36 +1,35 @@
-FUNCTION_BLOCK frutter
-
-VAR_INPUT:
+FUNCTION_BLOCK frutter	// Block definition (there may be more than one block per file)
+VAR_INPUT
 	energiaAtual : REAL;
 	distancia : REAL;
 	valorFruta : REAL;
 END_VAR
 
-VAR_OUTPUT:
+VAR_OUTPUT
 	decisao : REAL;
 END_VAR
 
 
 FUZZIFY energiaAtual // Fuzzify input variable 'energiaAtual': { 'morrendo', 'estavel', 'hiperativo' }
 	TERM morrendo := (0, 1) (1, 1) (1.5, 0);
-	TERM estavel := (1, 0) (3,1) (4.5,0);
-	TERM hiperativo := (4,0) (5.5, 1)
+	TERM estavel := (1, 0) (5,1) (8,0);
+	TERM hiperativo := (4,0) (11, 1);
 END_FUZZIFY
 
 FUZZIFY distancia // Fuzzify input variable 'distancia': { 'perto','longe' }
-	TERM perto := (0, 1) (1, 1) (4, 0);
-	TERM longe := (3, 0) (5,1)
+	TERM perto := (0, 1) (1, 1) (2, 0);
+	TERM longe := (1, 0) (5,1);
 END_FUZZIFY
 
 FUZZIFY valorFruta // Fuzzify input variable 'valorFruta': { 'veneno','pouca', 'muito' }
 	TERM veneno := (0, 1) (0.1, 0);
 	TERM pouca := (1.9, 0) (2, 1) (2.1, 0);
-	TERM muita := (3.9, 0) (4, 1) (4.1, 0)
+	TERM muita := (3.9, 0) (4, 1) (4.1, 0);
 END_FUZZIFY
 
 DEFUZZIFY decisao // Defuzzify output variable 'decisao' : {'comer', 'deixar' }
-	TERM comer :=  (3,0) (5,1);
-	TERM deixar := (0,1) (4,0);
+	TERM comer :=  (0,0) (1,1);
+	TERM deixar := (0,1) (1,0);
 	METHOD : COG; // Center of gravity
 	DEFAULT := 0; // Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -48,3 +47,4 @@ RULEBLOCK No1
 	RULE 6 : IF energiaAtual IS estavel AND distancia IS perto THEN decisao IS deixar;
 END_RULEBLOCK
 
+END_FUNCTION_BLOCK

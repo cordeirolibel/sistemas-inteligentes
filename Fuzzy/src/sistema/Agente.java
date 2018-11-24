@@ -1,11 +1,8 @@
 package sistema;
 
-//package tipperusingapi;
-
-//import net.sourceforge.jFuzzyLogic.FIS;
-//import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
-//import net.sourceforge.jFuzzyLogic.rule.Variable;
-	
+import net.sourceforge.jFuzzyLogic.FIS;
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
+import net.sourceforge.jFuzzyLogic.rule.Variable;	
 import ambiente.*;
 import arvore.TreeNode;
 import arvore.fnComparator;
@@ -24,6 +21,7 @@ import java.util.Comparator;
 public class Agente implements PontosCardeais {
 	
 	private static final int SEED = 42;
+        
 	
     /* referência ao ambiente para poder atuar no mesmo*/
     Model model;
@@ -95,6 +93,7 @@ public class Agente implements PontosCardeais {
         Fruta fruta = model.labir.frutas[posAtual.getLin()][posAtual.getCol()];
         int nova_energia = estrategia(estrateg,fruta);
         if (nova_energia == -1){//morreu
+                //System.out.println("HUe");
         	this.pontuacao = 50;
         	return -1;
         }
@@ -137,18 +136,41 @@ public class Agente implements PontosCardeais {
      */
     public int estrategia(int estrateg, Fruta fruta){
     	boolean come = false;
-    	//aleatorio
+        float energiaID3;
+    	float distancia;
+        float energiaAtual;
+        Estado estObj = this.prob.getEstObj();
+        
+        //aleatorio
     	if (estrateg==0) {
     		if (this.gerador.nextInt(2)==0)
     			come = true;
     	}
+        
+        if (estrateg==2)
+        {
+            if (fruta.id3Fruta() != 0)
+                    {
+                       come = true; 
+                    }
+        }
     	//fuzzy
-    	else {
-    		come = true;
-    	}
+    	if(estrateg==1) {
+    		energiaID3 = fruta.id3Fruta();
+                energiaAtual = this.energia;
+                distancia = (float) Math.sqrt(Math.abs(estObj.getCol()- this.sensorPosicao().getCol())*Math.abs(estObj.getCol()- this.sensorPosicao().getCol()) + Math.abs(estObj.getLin()- this.sensorPosicao().getLin())*Math.abs(estObj.getLin()- this.sensorPosicao().getLin()));
+                come = testFruta(distancia, energiaAtual, energiaID3);
+                /*
+                System.out.printf("Distancia = %f\n", distancia);
+                System.out.printf("EnergiaAtual = %f\n", energiaAtual);
+                System.out.printf("Energia ID3 = %f\n", energiaID3);
+                System.out.println(come);
+                System.out.println("\n");
+                */
+                }
     	
     	//se nao come, nao ganha nada
-    	if (come = false){ return 0;}
+    	if (come == false){ return 0;}
     	
     	//comeu
     	
@@ -426,7 +448,46 @@ public class Agente implements PontosCardeais {
     }
     
     
+    
+    
+     public boolean testFruta (float distancia, float energiaAtual, float valorFruta){
+        // Load from 'FCL' file
+        String fileName = "./frutter.fcl";
+        FIS fis = FIS.load(fileName,true);
+        //Variable error = fis.getVariable("distancia");
+        
+        // Error while loading?
+        if( fis == null ) { 
+            System.err.println("Can't load file: '" + fileName + "'");
+            return false;
+        }
 
+        // Show 
+       // JFuzzyChart.get().chart(fis);
 
+        // Set inputs
+        fis.setVariable("distancia", distancia);
+        fis.setVariable("energiaAtual", energiaAtual);
+        fis.setVariable("valorFruta", valorFruta);
+
+        // Evaluate
+        fis.evaluate();
+
+        // Show output variable's chart
+        Variable decisao = fis.getVariable("decisao");
+        
+        //Graficos:
+        //JFuzzyChart.get().chart(decisao, decisao.getDefuzzifier(), true);
+
+        // Print ruleSet
+        //System.out.println(fis);
+        
+        // print membership degree for output terms
+        //System.out.println("Comer="+decisao.getMembership("comer"));
+        //System.out.println("Deixar="+decisao.getMembership("deixar"));
+		
+            return decisao.getMembership("comer") > decisao.getMembership("deixar");
+    }
+ 
 }    
 

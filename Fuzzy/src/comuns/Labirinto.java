@@ -16,6 +16,7 @@ import comuns.*;
 public class Labirinto {
 	
 	private static final int SEED = 42;
+        //teste 42 ---- 8000 ---- 12
 	
     /*Array que representa o labirinto sendo as posições = 1 aquelas que 
       contêm paredes */
@@ -40,7 +41,7 @@ public class Labirinto {
         gerador = new Random(SEED);
         
         try {
-        	text_Frutas = new Text_Frutas("frutasLabirinto.txt");
+        	text_Frutas = new Text_Frutas("./frutasLabirinto.txt");
         	
         }
         catch (FileNotFoundException e) {

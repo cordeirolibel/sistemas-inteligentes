@@ -14,8 +14,8 @@ import ambiente.*;
 public class Main {
     public static void main(String args[]) {
     	
-    	int estrategia = 0;//0 randomico e 1 fuzzy
-    	int  plano = 0; // 0=custo uniforme, 1=A*-H1, 2=A*-H2
+    	int estrategia = 1;//0 randomico, 1 fuzzy e 2 non-lethal
+     	int  plano = 1; // 0=custo uniforme, 1=A*-H1, 2=A*-H2
     	
     	
         // Cria o ambiente (modelo) = labirinto com suas paredes
@@ -36,9 +36,11 @@ public class Main {
     
         	model.randPosObjFruits();
         	ag = new Agente(model);
-        	//model.desenhar(true);
+                //model.desenhar(true);
+        	
 	        while (ag.deliberar(0,estrategia) != -1) {  
-	        }
+                    //model.desenhar(true);
+                }
 	        
 	        pontuacao = ag.getPontuacao(); 
 	        mediaPontuacao += pontuacao;
