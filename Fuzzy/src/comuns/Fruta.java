@@ -1,23 +1,27 @@
 package comuns;
-import java.util.Random;
-import comuns.*;
-import static comuns.Cor.*;
 
 public class Fruta {
-	private Cor cores[];
-	private int energia;
+	private char cores[];
+	private char energia;
 
-	public Fruta(Cor[] cores, int energia) {
+	public Fruta(char[] cores, char energia) {
 		this.cores = cores;
 		this.energia = energia;
 	}
 	
 	
-	public Cor[] getCores() {
+	public char[] getCores() {
 		return this.cores;
 	}
 	
-	public int getEnergia() {
+	public char getEnergia() {
 		return this.energia;
 	}
+	
+	public void print() {
+		System.out.print(cores);
+		System.out.println(energia);
+	}
+	
+	
 }

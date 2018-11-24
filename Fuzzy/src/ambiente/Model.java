@@ -38,6 +38,9 @@ public class Model implements PontosCardeais {
         view = new View(this);
     }
     /**Faz um print do labirinto */
+    public void desenhar(boolean frutas) {
+        view.desenhar(frutas);
+    }
     public void desenhar() {
         view.desenhar();
     }
@@ -99,7 +102,20 @@ public class Model implements PontosCardeais {
         obj_rand = labir.randPos();
         return setObj(obj_rand[0],obj_rand[1]);
     }
-
+    
+    /**
+     * inicializacao randomica de tudo
+    */
+    public void randPosObjFruits(){
+    	//random pos inicial
+    	this.setPosRand();
+    	//random pos objetivo diferente de pos inicial
+    	do {
+    		this.setObjRand();
+    	}while((this.posObj[0]==this.pos[0])&&(this.posObj[1]==this.pos[1]));
+    	//frutas randomicas
+    	this.labir.randFruits();
+    }
     
     /**Retorna a posição do objetivo no labirinto
      * @return vetor de 2 inteiros = par ordenado = [linha, coluna]

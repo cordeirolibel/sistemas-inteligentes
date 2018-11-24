@@ -13,30 +13,51 @@ import ambiente.*;
  */
 public class Main {
     public static void main(String args[]) {
+    	
+    	int estrategia = 0;//0 randomico e 1 fuzzy
+    	int  plano = 0; // 0=custo uniforme, 1=A*-H1, 2=A*-H2
+    	
+    	
         // Cria o ambiente (modelo) = labirinto com suas paredes
         Model model = new Model(9, 9);
         model.labir.paredesPadrao();
         
-        // seta a posição inicial do agente no ambiente - nao interfere no 
-        // raciocinio do agente, somente no amibente simulado
-        model.setPosRand();
-        model.setObjRand();
-        model.labir.randFruits();
-        
         // Cria um agente
-        Agente ag = new Agente(model);
+        Agente ag;
         
-        // Ciclo de execucao do sistema
-        // desenha labirinto
-        model.desenhar(); 
         
         // agente escolhe proxima açao e a executa no ambiente (modificando
         // o estado do labirinto porque ocupa passa a ocupar nova posicao)
+        float pontuacao, mediaPontuacao = 0;
+        int num_sucesso = 0;
         
-        System.out.println("\n*** Inicio do ciclo de raciocinio do agente ***\n");
-        while (ag.deliberar() != -1) {  
-            model.desenhar(); 
+        System.out.println("\n*** Inicio do ciclo de raciocinio dos agentes ***\n");
+        for(int i=0;i<100;i++) {
+    
+        	model.randPosObjFruits();
+        	ag = new Agente(model);
+        	//model.desenhar(true);
+	        while (ag.deliberar(0,estrategia) != -1) {  
+	        }
+	        
+	        pontuacao = ag.getPontuacao(); 
+	        mediaPontuacao += pontuacao;
+	        if (pontuacao<50){
+	        	num_sucesso += 1;
+	        }
+	        
+	        System.out.printf("ID: %d",i+1);
+	        System.out.printf("\tPontuacao: %.1f ",pontuacao);
+	        System.out.printf("\tBaseline: %d ",estrategia);
+	        System.out.println();
         }
-        model.desenhar(); 
+        
+        System.out.println("-----------------------------------");
+        System.out.printf("Numero de Sucessos:\t%d/%d\n",num_sucesso,100);
+        System.out.printf("Pontuacao Media:\t%.2f\n",mediaPontuacao/100);
+     
     }
+    
+    
+    
 }

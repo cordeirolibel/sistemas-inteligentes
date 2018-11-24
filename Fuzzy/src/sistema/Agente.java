@@ -1,19 +1,20 @@
 package sistema;
 
+//package tipperusingapi;
+
+//import net.sourceforge.jFuzzyLogic.FIS;
+//import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
+//import net.sourceforge.jFuzzyLogic.rule.Variable;
+	
 import ambiente.*;
 import arvore.TreeNode;
 import arvore.fnComparator;
 import problema.*;
 import comuns.*;
-import static comuns.PontosCardeais.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.Scanner; //ler teclado
-
+import java.util.Random;
 
 import java.util.Comparator;
-import java.util.*;
 
 
 /**
@@ -21,17 +22,27 @@ import java.util.*;
  * @author tacla
  */
 public class Agente implements PontosCardeais {
+	
+	private static final int SEED = 42;
+	
     /* referência ao ambiente para poder atuar no mesmo*/
     Model model;
     Problema prob; // formulacao do problema
     Estado estAtu; // guarda o estado atual (posição atual do agente)
+    
     /* @todo T2: fazer uma sequencia de acoes a ser executada em deliberar
        e armazena-la no atributo plan[]
     */
     int plan[];
     double custo;
-    static int ct = -1;
-           
+    int ct;
+    
+    /*gerador de numeros randomicos*/
+    private Random gerador;
+    
+    float energia;
+    float pontuacao;
+    
     public Agente(Model m) {
     	int [] pos;
         this.model = m;
@@ -42,7 +53,7 @@ public class Agente implements PontosCardeais {
         //@todo T2: crencas do agente a respeito do labirinto OK
         prob.criarLabirinto(9, 9);
         prob.crencaLabir.paredesPadrao();
-        
+        this.ct = -1;
         
         //@todo T2: crencas do agente: Estado inicial, objetivo e atual
         // utilizar atributos da classe Problema OK
@@ -50,12 +61,19 @@ public class Agente implements PontosCardeais {
         prob.defEstIni(pos[0],pos[1]);
         pos = model.getObj();
         prob.defEstObj(pos[0],pos[1]);
+        
+        gerador = new Random(SEED);
+        
+        this.pontuacao = 50;
+        this.energia = 3;
     }
     
     /**Escolhe qual ação (UMA E SOMENTE UMA) será executada em um ciclo de raciocínio
+     * @param plano  0 custo uniforme, 1 A* H1, 2 A* H2
+     * @param estrateg 0 aleatorio, 1 fuzzy
      * @return 1 enquanto o plano não acabar; -1 quando acabar
      */
-    public int deliberar() {
+    public int deliberar(int plano, int estrateg) {
     	
         ct++;
         //@todo T2: executar o plano de acoes: SOMENTE UMA ACAO POR CHAMADA DESTE METODO
@@ -64,20 +82,27 @@ public class Agente implements PontosCardeais {
         
         //criando plano de acoes
         if (ct==0) {
-        	
         	//this.planoFixo();
-            this.planoDinamico(1); //0=custoUniforme; 1=A*heuristica1; 2=A*heuristica2
-        	
-        	//mostrando plano
-        	System.out.print("Plano: ");
-        	for(int a : plan)
-        		System.out.printf("%s ", acao[a]);
-        	
-        	System.out.println("\n\n*** Plano Arquitetado - Inicio da Execucao! ***\n");
+            this.planoDinamico(plano); //0=custoUniforme; 1=A*heuristica1; 2=A*heuristica2
+            this.energia = 3;
         }
         
         int acaoPlan = this.plan[ct];
         Estado posAtual = this.sensorPosicao();
+        
+        //------------------------Frutas
+        //testar fruta
+        Fruta fruta = model.labir.frutas[posAtual.getLin()][posAtual.getCol()];
+        int nova_energia = estrategia(estrateg,fruta);
+        if (nova_energia == -1){//morreu
+        	this.pontuacao = 50;
+        	return -1;
+        }
+        this.energia += nova_energia;
+        
+
+        //------------------------
+        
         
         //proxima posicao
         Estado posSuc = this.prob.suc(posAtual, acaoPlan);
@@ -89,25 +114,56 @@ public class Agente implements PontosCardeais {
         int possiveis[];
         possiveis = this.prob.acoesPossiveis(posAtual);
                 
-        //@todo T2: imprimir o que foi pedido
-        System.out.printf("estado atual: %d,%d\n",posAtual.getLin(),posAtual.getCol());
-        System.out.printf("açoes possiveis: { ");
-        for(int n = 0; n<8; n++)
-        {
-            if(possiveis[n]!= -1)
-                System.out.printf("%s ", acao[n]);
-        }
-        System.out.printf("}\n");
-        System.out.printf("ct = %d de %d ação escolhida=%s\n",ct,plan.length-1,acao[acaoPlan]);
-        System.out.printf("custo ate o momento: %.1f\n\n",this.custo);
-        
         executarIr(plan[ct]); 
-       
-        //Testar objetivo
-        if (this.prob.testeObjetivo(this.sensorPosicao()) == true)
-           return -1;
+        this.energia -= 1.5;
         
+        //morreu sem energia
+        if (this.energia <0) {
+        	this.pontuacao = 50;
+        	return -1;
+        }
+        
+        //Testar objetivo
+        if (this.prob.testeObjetivo(this.sensorPosicao()) == true) {
+        	this.pontuacao = this.energia;
+        	return -1;
+        }
         return 1;
+    }
+    
+    /**Executa estrategia
+     * @param direcao N NE S SE ...
+     * @return valor de energia ou -1 se morreu
+     */
+    public int estrategia(int estrateg, Fruta fruta){
+    	boolean come = false;
+    	//aleatorio
+    	if (estrateg==0) {
+    		if (this.gerador.nextInt(2)==0)
+    			come = true;
+    	}
+    	//fuzzy
+    	else {
+    		come = true;
+    	}
+    	
+    	//se nao come, nao ganha nada
+    	if (come = false){ return 0;}
+    	
+    	//comeu
+    	
+    	//morreu
+    	int energia = fruta.getEnergia()-48;
+    	if (energia==0) {
+    		return -1;
+    	}
+    	
+    	//ganhou energia
+    	return energia;
+    }
+    
+    public float getPontuacao() {
+    	return this.pontuacao;
     }
     
     /**Funciona como um driver ou um atuador: envia o comando para
@@ -147,14 +203,15 @@ public class Agente implements PontosCardeais {
     
     // Gerador de plano 
     private boolean planoDinamico(int tipo) {
-    	
+    	/*
         if (tipo == 0)
             System.out.println("Usando Custo Uniforme:\n");
         if (tipo == 1)
             System.out.println("Usando A* com heurísitca 1:\n");
         if (tipo == 2)
             System.out.println("Usando A* com heurísitca 2:\n");
-        
+        */
+    	
         //Controle e análise
         int nosgerados = 0;
         int ct_ja_explorados = 0;
@@ -217,6 +274,7 @@ public class Agente implements PontosCardeais {
 				//retornar a solucao
 				
 				int depth = no.getDepth();
+				/*
 				System.out.println("Achei solucao!");
 				System.out.print("Custo: ");
 				System.out.println(no.getFn());
@@ -230,7 +288,7 @@ public class Agente implements PontosCardeais {
                                 System.out.printf("Nós não inseridos (max): %d\n", ct_ja_explorados_max);
                                 System.out.printf("Nós removidos da fronteira (max): %d\n", ct_descartados_front_max);
                                 
-                                
+                */
 				//criando o plano
 				this.plan = new int[depth];
 				int i=0;
@@ -368,5 +426,7 @@ public class Agente implements PontosCardeais {
     }
     
     
+
+
 }    
 

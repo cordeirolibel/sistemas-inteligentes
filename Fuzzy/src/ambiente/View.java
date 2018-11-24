@@ -15,6 +15,9 @@ class View {
     *
     */
     protected void desenhar() {
+    	this.desenhar(false);
+    }
+    protected void desenhar(boolean fruta) {
         System.out.println("--- Estado do AMBIENTE ---");
         System.out.println(model.pos[0] + "," + model.pos[1]);
         
@@ -34,12 +37,19 @@ class View {
             for (int col = 0; col < model.labir.getMaxCol(); col++) {
                 if (model.labir.parede[lin][col] == 1) {
                     System.out.print("|XXX");  // desenha parede
-                } else if (model.pos[0] == lin && model.pos[1] == col) {
-                    System.out.print("| A ");  // desenha agente
-                } else if (model.posObj[0] == lin && model.posObj[1] == col) {
-                    System.out.print("| G ");
-                } else {
-                    System.out.print("|   ");  // posicao vazia
+                }else{
+                	if (model.pos[0] == lin && model.pos[1] == col) {
+	                    System.out.print("| A");  // desenha agente
+	                } else if (model.posObj[0] == lin && model.posObj[1] == col) {
+	                    System.out.print("| G");
+	                } else {
+	                	System.out.print("|  ");  // posicao vazia
+	                }
+                	if(fruta == false) {
+                		System.out.print(" ");  // posicao vazia
+                	}else {
+                		System.out.print(model.labir.frutas[lin][col].getEnergia());  // posicao vazia
+                	}
                 }
             }
             System.out.print("|");

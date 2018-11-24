@@ -1,9 +1,10 @@
 package comuns;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 
 import comuns.*;
-import static comuns.Cor.*;
 
 /**Labirinto representa um labirinto com paredes. A indexação das posições do
  * labirinto é dada por par ordenado (linha, coluna). A linha inicial é zero e
@@ -28,13 +29,25 @@ public class Labirinto {
     /*gerador de numeros randomicos*/
     private Random gerador;
     
-    public Labirinto(int maxLinhas, int maxColunas) {
+    private Text_Frutas text_Frutas;
+    
+    public Labirinto(int maxLinhas, int maxColunas)  {
         this.maxCol = maxColunas;
         this.maxLin = maxLinhas;
         parede = new int[maxLin][maxCol];
         frutas = new Fruta[maxLin][maxCol];
 
         gerador = new Random(SEED);
+        
+        try {
+        	text_Frutas = new Text_Frutas("frutasLabirinto.txt");
+        	
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        
     }
     
     public int getMaxLin() {
@@ -76,14 +89,12 @@ public class Labirinto {
     public void paredesPadrao() {
     	this.porParedeVertical(0, 1, 0);
     	this.porParedeVertical(0, 0, 1);
-    	this.porParedeVertical(5, 8, 1);
+    	this.porParedeVertical(6, 8, 1);
     	this.porParedeVertical(5, 5, 2);
     	this.porParedeVertical(8, 8, 2);
     	this.porParedeHorizontal(4, 7, 0);
-    	this.porParedeHorizontal(7, 7, 1);
     	this.porParedeHorizontal(3, 5, 2);
-    	this.porParedeHorizontal(3, 5, 3);
-    	this.porParedeHorizontal(7, 7, 3);
+    	this.porParedeHorizontal(3, 6, 3);
     	this.porParedeVertical(6, 7, 4);
     	this.porParedeVertical(5, 6, 5);
     	this.porParedeVertical(5, 7, 7);
@@ -109,22 +120,14 @@ public class Labirinto {
      * adiciona frutas randomicas
      */
     public void randFruits() {
-        int c1,c2,c3,c4,c5,energia;
-        
-        for (int i = 0; i < this.getMaxLin(); i++){
-            for (int j = 0; j < this.getMaxCol(); j++){
-            	
-                c1 = this.gerador.nextInt(2)+B;
-                c2 = this.gerador.nextInt(3);
-                c3 = this.gerador.nextInt(3);
-                c4 = this.gerador.nextInt(3);
-                c5 = this.gerador.nextInt(2)+B;
-                
-                //{0,1,2} -> {0,2,4}
-                energia = this.gerador.nextInt(3)*2;
-                
-            }
-        }
+    	//coloca uma fruta em cada posicao q nao eh parede
+    	for (int l = 0; l < maxLin; l++) {
+    		for (int c = 0; c < maxCol; c++){
+    			if(parede[l][c]==0) {
+    				this.frutas[l][c] = this.text_Frutas.get_fruta();
+    			}
+    		}
+    	}
     }
     
 }
