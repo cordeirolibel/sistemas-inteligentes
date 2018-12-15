@@ -12,3 +12,7 @@ Natural. Aprendizado. Aplicações.
  - ID3
  - Fuzzy
  
+ --------------
+ ###  Labirinto:
+ 
+ <img src="pck_busca/lab.png" width="350">
